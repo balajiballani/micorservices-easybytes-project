@@ -1,0 +1,38 @@
+server:
+  port: 8071
+
+spring:
+  application:
+    name: "config-server"
+  profiles:
+    active: "native"
+    # to get the properties from git it is the most recommended since it is secure and provides versioning
+    #active: "git"
+    cloud:
+      config:
+        server:
+          native:
+            search-locations: "classpath:/config"
+          #search-locations: "file:///D://config"
+#        git:
+#          uri: "test"
+#          # this the branch where it should read the properties from
+#          default-label: main
+#          timeout: 5
+#          # This property ensures that clone the repo as soon as the server starts if it is set to false this
+#          # means cloning happens upon first request this may lead to some latency issues
+#          clone-on-start: true
+#          # This ensures take the latest pull everytime the server starts
+#          force-pull: true
+encrypt:
+ key: "MIICXAIBAAKBgQDKe60B+F2KJH9F3VzfmBiY1nJvz6A4xL90Pnj3UJ8BWu/Tcn6eoB7g1XoRb38ZCHs8kU+9oEt0+2zRLrZhJ4Ym1Gt3NEOqrAt0bT2JTYrWehn4bBkH9t+L6AatAB63Vv/FkSAG/dyZ4KqHGWY2U4aJvBquh+OjH2mIS/IvkZtqQIDAQABAoGBAItZvC3k30AjJXn8Brz8sI5LDJ9IaYz3e3KWK9s1RQ3RzDXY/Uc7m8r6vhsflMlZZeGnfLmQ7OVgSPWzehpdR/TP3mV3M+tcWPHtwq7oJwpJ1wevMYjI2GBbJzJgeetv3Hufx+fLdzeyu7bWjzBofVdysjL8g0tBDBR3JfN3dOpBAkEA/H9G9skjHbvoEMLqP3qL+fJ4sXekwIdlh7tOMl/Bh1J5fcOwVWXXxNG6YAZAR5byd5tzQ7lHcZDbNCZ0ZT/xMwJBAM3ZQXQc9iVHEalAv4Obh6bc2lCxFtUzH0efZ3Hgkk8zGj5t3EPziEJ0H9JClakYcRFwB95TX7p5r3GJgb2YiqUCQQC3MKzW2ApT9RWzQFIauG4l9kPMY5c2XYdI9T5UfFbNJ4+4OeS9/El0Q4FvzB8K7UBvKPJKF+dLV4OQ/ZakHajBAkBlyZ+uNpKjnYDgMbWQqKWwRVsEDmv5HhAS7nEjY73Tw7R/bWY3Y/xWps09UJjABPLXmowExwDK8eH84iRR4qhJAkBVqQkZz2cLpp8Xt94f/5Bb48KO6gekYlVZ4ysNQ1DN4WavhLPrp7CLMFnPQbcy7mqZ5zpCvZcMt6K93q0l"
+management:
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true

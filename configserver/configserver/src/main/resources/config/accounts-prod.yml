@@ -1,0 +1,11 @@
+#prefixing {cipher} enables the algorithm to understand the assigned values is encrypted
+accounts:
+  message: "Welcome to the EasyBank accounts related new APIs"
+  contactDetails:
+    name: "{cipher}b0b29bc0e2cb76edf409ed59accfbe57acd496fe1169d304206d1431320bcc10"
+    email: "{cipher}7f0698366f166cfb116428d2e3fc07f256d8b37aac299a7c2dd5ba0a371caeedb373aac548b322971ce125d5b88b8e2b"
+  onCallSupport:
+    -(91) 9491277098
+    -(91) 9948112882
+build:
+  version: prod version 3.0
