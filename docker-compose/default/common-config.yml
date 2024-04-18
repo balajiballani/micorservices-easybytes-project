@@ -1,0 +1,24 @@
+services:
+  network-deploy-service:
+    networks:
+      - balaji
+  microservice-base-config:
+    extends:
+      service: network-deploy-service
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+
+  microservice-configserver-config:
+    extends:
+      service: microservice-base-config
+    environment:
+      SPRING_PROFILES_ACTIVE: "default"
+      #since connection cannot be established from yaml configuration since docker runs in its own network
+      #and our microservice tries to connect with the localhost which is not running
+      # to avoid the situation we are passing the config service name
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+

@@ -1,0 +1,10 @@
+loans:
+  message: "Welcome to the EazyBank accounts related qa APIs"
+  contactDetails:
+    name: "Balaji"
+    email: "ballanibalaji@gmail.com"
+  onCallSupport:
+    -(91) 9491277098
+    -(91) 9948112882
+build:
+  version: test version 3.0

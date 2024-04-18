@@ -1,0 +1,91 @@
+# networks command is used to intimate the docker for all the microservices create a network with the below
+# name since these are going to get created in own networks to make this services to flow through one network for the
+# intercommunication we use the command
+# with this configuration accounts service does not wait for the config server to runnable state, so we have added
+# readiness-state and liveness-state to check the config server running status since we have removed optional
+# so all the microservices are relied on config server running status
+services:
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  configserver:
+    image: "ballanibalaji/configserver:v2"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness |grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
+  accounts:
+    image: "ballanibalaji/accounts:v2"
+    container_name: accounts-ms
+    ports:
+      - "5050:5050"
+    # this property just says it is dependent on config server, but it does not wait for the server readiness
+    # to overcome this we can re-frame the property as below
+    # depends_on: configserver
+    depends_on:
+      configserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
+  loans:
+    image: "ballanibalaji/loans:v2"
+    container_name: loans-ms
+    ports:
+      - "5051:5051"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
+  cards:
+    image: "ballanibalaji/cards:v2"
+    container_name: cards-ms
+    ports:
+      - "5052:5052"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+
+networks:
+  balaji:
+    driver: "bridge"
+
+

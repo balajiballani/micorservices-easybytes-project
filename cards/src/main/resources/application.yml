@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: "cards"
+  profiles:
+    active: "qa"
+  datasource:
+    url: jdbc:h2:mem:testCards
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+server:
+  port: 5052
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
