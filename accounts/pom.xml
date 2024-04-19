@@ -61,10 +61,10 @@
 <!--        this dependency is added to avoid the manual intervention of refresh event this -->
 <!--        puts the message and process when the configuration gets changed in the -->
 <!--        config server there by saving the time to trigger the refresh events for 1000's of microservices -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-bus-amqp</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -5,21 +5,21 @@
 # readiness-state and liveness-state to check the config server running status since we have removed optional
 # so all the microservices are relied on config server running status
 services:
-  rabbit:
-    image: rabbitmq:3.13-management
-    hostname: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: network-deploy-service
+#  rabbit:
+#    image: rabbitmq:3.13-management
+#    hostname: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    healthcheck:
+#      test: rabbitmq-diagnostics check_port_connectivity
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 10s
+#    extends:
+#      file: common-config.yml
+#      service: network-deploy-service
 
   configserver:
     image: "ballanibalaji/configserver:v2"
@@ -32,9 +32,9 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
-    depends_on:
-      rabbit:
-        condition: service_healthy
+#    depends_on:
+#      rabbit:
+#        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-base-config
@@ -50,8 +50,14 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+      accountsdb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
+      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
     extends:
       file: common-config.yml
       service: microservice-configserver-config
@@ -83,6 +89,36 @@ services:
       service: microservice-configserver-config
     environment:
       SPRING_APPLICATION_NAME: "cards"
+
+
+
+  accountsdb:
+    container_name: accountsdb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_DATABASE: accountsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+#  loansdb:
+#    container_name: loansdb
+#    ports:
+#      - "3308:3306"
+#    environment:
+#      MYSQL_ROOT_DATABASE: loansdb
+#    extends:
+#      file: common-config.yml
+#      service: microservice-db-config
+#  cardsdb:
+#    container_name: cardsdb
+#    ports:
+#      - "3309:3306"
+#    environment:
+#      MYSQL_ROOT_DATABASE: cardsdb
+#    extends:
+#      file: common-config.yml
+#      service: microservice-db-config
 
 networks:
   balaji:

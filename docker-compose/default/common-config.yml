@@ -11,6 +11,18 @@ services:
       resources:
         limits:
           memory: 700m
+  microservice-db-config:
+    extends:
+      service: microservice-base-config
+    image: mysql
+    healthcheck:
+      test: [ "CMD","mysqladmin","ping","-h","localhost" ]
+      timeout: 10s
+      retries: 10
+      interval: 10s
+      start_period: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
 
   microservice-configserver-config:
     extends:
@@ -21,4 +33,6 @@ services:
       #and our microservice tries to connect with the localhost which is not running
       # to avoid the situation we are passing the config service name
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 
