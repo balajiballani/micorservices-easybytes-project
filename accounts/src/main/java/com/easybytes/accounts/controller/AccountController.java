@@ -29,7 +29,7 @@ public class AccountController {
     private  AccountContactInfo accountContactInfo;
     @Operation(summary = "create api for a customer")
     @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE})
-    //Since the error response dto class is in global exception handler SWAGGER is not able to scan so we use
+    //Since the error response dto class is in global exception handler SWAGGER is not able to scan, so we use
     //content key in the @API response annotation
     @ApiResponses({
             @ApiResponse(

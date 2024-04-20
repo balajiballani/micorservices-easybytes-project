@@ -1,9 +1,6 @@
 package com.easybytes.accounts;
 
 import com.easybytes.accounts.dto.AccountContactInfo;
-import com.netflix.discovery.EurekaClient;
-import jakarta.annotation.PreDestroy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

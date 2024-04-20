@@ -8,19 +8,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Entity
 @AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "Card")
-public class Card extends BaseEntity{
-    @Column(unique = true,nullable = false)
+public class Card extends BaseEntity {
+    @Column(unique = true, nullable = false)
     private String cardNumber;
-    @Column(unique = true,nullable = false)
-    private String name;
-    private Date expiryDate;
-    private String securityCode;
+    private String cardType;
+    private String mobileNumber;
+    private double totalLimit;
+    private double amountUsed;
+    private double availableAmount;
 }
