@@ -5,6 +5,7 @@ import com.easybytes.loans.dto.LoansContactInfo;
 import com.easybytes.loans.dto.ResponseDto;
 import com.easybytes.loans.service.ILoansService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +32,13 @@ public class LoansController {
     @GetMapping("/fetchContactInfo")
     public ResponseEntity<LoansContactInfo> fetchCustomer(){
         return ResponseEntity.status(HttpStatus.OK).body(loansContactInfo);
+    }
+    @GetMapping("/fetch")
+    public ResponseEntity<LoanDto> fetchLoan(@RequestParam
+                                                     @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+                                                     String mobileNumber) {
+        LoanDto cardsDto = loanService.fetchByPhoneNumber(mobileNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
 
 }

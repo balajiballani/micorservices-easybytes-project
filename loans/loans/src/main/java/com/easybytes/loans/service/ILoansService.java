@@ -5,5 +5,5 @@ import com.easybytes.loans.dto.LoanDto;
 
 public interface ILoansService {
   void createLoan(LoanDto loanRequestDto);
-  LoanDto fetchByLoanNumber(String loanNumber);
+  LoanDto fetchByPhoneNumber(String mobileNumber);
 }

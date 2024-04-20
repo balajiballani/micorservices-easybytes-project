@@ -58,4 +58,5 @@ public class AccountController {
     public ResponseEntity<AccountContactInfo> fetchCustomer(){
         return ResponseEntity.status(HttpStatus.OK).body(accountContactInfo);
     }
+
 }

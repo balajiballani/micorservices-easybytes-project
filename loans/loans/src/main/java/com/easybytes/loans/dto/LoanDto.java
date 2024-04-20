@@ -17,6 +17,6 @@ public class LoanDto {
     private Double amountPaid;
     @Schema(description = "outStandingAmount",example = "100")
     private Double outStandingAmount;
-
+    private String loanNumber;
 
 }

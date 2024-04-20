@@ -35,7 +35,6 @@ public class CustomerServiceImpl implements ICustomerService {
         Customer c = customerRepository.findByMobileNumber(mobile).orElseThrow(
                 ()->new ResourceNotFoundException("Customer","mobile number",mobile)
         );
-
         return CustomerMapper.mapToCustomerDto(c,new CustomerDto());
     }
 
