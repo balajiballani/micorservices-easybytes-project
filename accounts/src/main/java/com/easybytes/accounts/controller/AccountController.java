@@ -3,6 +3,7 @@ import com.easybytes.accounts.dto.AccountContactInfo;
 import com.easybytes.accounts.dto.CustomerDto;
 import com.easybytes.accounts.dto.ErrorResponseDto;
 import com.easybytes.accounts.dto.ResponseDto;
+import com.easybytes.accounts.dto.wrapper.AccountDetailsDto;
 import com.easybytes.accounts.service.ICustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -58,5 +59,9 @@ public class AccountController {
     public ResponseEntity<AccountContactInfo> fetchCustomer(){
         return ResponseEntity.status(HttpStatus.OK).body(accountContactInfo);
     }
-
+    @GetMapping("/fetchAccount")
+    public ResponseEntity<AccountDetailsDto> fetchAccountDetails(@RequestParam String mobile){
+        AccountDetailsDto accountDetailsDto =  customerService.getDetailsByNumber(mobile);
+        return ResponseEntity.status(HttpStatus.OK).body(accountDetailsDto);
+    }
 }
