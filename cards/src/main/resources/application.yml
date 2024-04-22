@@ -14,7 +14,7 @@ spring:
 #    console:
 #      enabled: true
   datasource:
-    url: jdbc:mysql://localhost:3306/cardsdb
+    url: jdbc:mysql://localhost:3306/cardsdb?createDatabaseIfNotExist=true
     username: root
     password: password
   jpa:
