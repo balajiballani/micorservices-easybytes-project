@@ -72,9 +72,13 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "loans"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3306/loansdb"
+      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     extends:
       file: common-config.yml
       service: microservice-configserver-config
+
 
   cards:
     image: "ballanibalaji/cards:v2"
@@ -89,6 +93,9 @@ services:
       service: microservice-configserver-config
     environment:
       SPRING_APPLICATION_NAME: "cards"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
+      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
 
 
@@ -101,24 +108,24 @@ services:
     extends:
       file: common-config.yml
       service: microservice-db-config
-#  loansdb:
-#    container_name: loansdb
-#    ports:
-#      - "3308:3306"
-#    environment:
-#      MYSQL_ROOT_DATABASE: loansdb
-#    extends:
-#      file: common-config.yml
-#      service: microservice-db-config
-#  cardsdb:
-#    container_name: cardsdb
-#    ports:
-#      - "3309:3306"
-#    environment:
-#      MYSQL_ROOT_DATABASE: cardsdb
-#    extends:
-#      file: common-config.yml
-#      service: microservice-db-config
+  loansdb:
+    container_name: loansdb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_DATABASE: loansdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+  cardsdb:
+    container_name: cardsdb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_DATABASE: cardsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
 
 networks:
   balaji:
