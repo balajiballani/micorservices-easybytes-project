@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 //cards is the application name
-@FeignClient("cards")
+@FeignClient(name = "cards",fallback = CardsFallBack.class)
 public interface CardsApiWrapper {
     @GetMapping(value = "/api/fetch")
     ResponseEntity<CardsDto> fetchCardDetails(@RequestParam String mobileNumber);

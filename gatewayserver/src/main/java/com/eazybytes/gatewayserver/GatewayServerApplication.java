@@ -29,7 +29,7 @@ public class GatewayServerApplication {
                 .route(
                         p -> p.path("/eazybank/accounts/**").filters(f -> f.rewritePath(
                                 "/eazybank/accounts/(?<segment>.*)", "/${segment}"
-                        ).circuitBreaker(config -> config.setName("accountsCircuitBreaker"))).uri("lb://ACCOUNTS")
+                        ).circuitBreaker(config -> config.setName("accountsCircuitBreaker").setFallbackUri("forward:/contactSupport"))).uri("lb://ACCOUNTS")
                 ).build();
     }
 

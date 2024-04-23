@@ -7,6 +7,18 @@ spring:
     url: jdbc:mysql://localhost:3306/accountsdb?createDatabaseIfNotExist=true
     username: root
     password: password
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+  
+resilience4j.circuitbreaker:
+  configs:
+    default: # default indicates that the below properties are common for all the microservices to get the customization we can refer the circuit breaker name in the [circuitBreaker(config -> config.setName("accountsCircuitBreaker"))]
+      slidingWindowSize: 10 #this defines the frequency of hits to the microservice before it goes to open state
+      permittedNumberOfCallsInHalfOpenState: 2 # this prop defines to allow two request in half open state before it goes to closed or open status as the circuit breaker cannot be in the closed state forever
+      failureRateThreshold: 50 # this prop states that if there is N(50) percentage success rate then move the status to open
+      waitDurationInOpenState: 10000
 
   jpa:
     hibernate:
