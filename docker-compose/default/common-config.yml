@@ -9,6 +9,7 @@ services:
       resources:
         limits:
           memory: 700m
+
   microservice-db-config:
     extends:
       service: microservice-base-config

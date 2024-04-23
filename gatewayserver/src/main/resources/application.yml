@@ -1,1 +1,47 @@
-spring.application.name=gatewayserver
+spring:
+  application:
+    name: "gatewayserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+    # this enables the gateway server to get in touch with eureka discovery to locate the available
+    # microservices
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          # this property enables the service name to get to lowercase
+          lowerCaseServiceId: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "Eazy Bank Gateway Server Application"
+    version: "1.0.0"
+
+resilience4j.circuitbreaker:
+  configs:
+    default: # default indicates that the below properties are common for all the microservices to get the customization we can refer the circuit breaker name in the [circuitBreaker(config -> config.setName("accountsCircuitBreaker"))]
+      slidingWindowSize: 10 #this defines the frequency of hits to the microservice before it goes to open state
+      permittedNumberOfCallsInHalfOpenState: 2 # this prop defines to allow two request in half open state before it goes to closed or open status as the circuit breaker cannot be in the closed state forever
+      failureRateThreshold: 50 # this prop states that if there is N(50) percentage success rate then move the status to open
+      waitDurationInOpenState: 10000
+
+
+#logging:
+#  level:
+#    com:
+#      eazybytes:
+#        gatewayserver: DEBUG
