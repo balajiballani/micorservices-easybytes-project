@@ -9,9 +9,15 @@ spring:
     gateway:
       discovery:
         locator:
+          # this actually locates the services registered with eureka since we have RouteLocator configuration in main class
+          # If we disable it draws only the services that are bind in the route locator
           enabled: true
           # this property enables the service name to get to lowercase
           lowerCaseServiceId: true
+      # This property is to enable connection time out and response time across microservices
+      http-client:
+        connect-timeout: 1000
+        response-timeout: 5s
 
 management:
   endpoints:

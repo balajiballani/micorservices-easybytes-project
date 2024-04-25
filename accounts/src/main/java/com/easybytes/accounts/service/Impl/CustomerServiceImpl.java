@@ -39,17 +39,22 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public CustomerDto fetchCustomer(String mobile) {
         Customer c = customerRepository.findByMobileNumber(mobile).orElseThrow(
-                ()->new ResourceNotFoundException("Customer","mobile number",mobile)
+                () -> new ResourceNotFoundException("Customer", "mobile number", mobile)
         );
-        return CustomerMapper.mapToCustomerDto(c,new CustomerDto());
+        return CustomerMapper.mapToCustomerDto(c, new CustomerDto());
     }
 
     @Override
     public AccountDetailsDto getDetailsByNumber(String phoneNumber) {
         AccountDetailsDto accountDetailsDto = new AccountDetailsDto();
         accountDetailsDto.setCustomerDto(fetchCustomer(phoneNumber));
-        accountDetailsDto.setLoansDto(loansApiWrapper.fetchLoan(phoneNumber).getBody());
-        accountDetailsDto.setCardsDto(cardsApiWrapper.fetchCardDetails(phoneNumber).getBody());
+        if (loansApiWrapper.fetchLoan(phoneNumber) != null) {
+            accountDetailsDto.setLoansDto(loansApiWrapper.fetchLoan(phoneNumber).getBody());
+        }
+        if (cardsApiWrapper.fetchCardDetails(phoneNumber) != null) {
+            accountDetailsDto.setCardsDto(cardsApiWrapper.fetchCardDetails(phoneNumber).getBody());
+        }
+
         return accountDetailsDto;
     }
 
